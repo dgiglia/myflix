@@ -1,0 +1,8 @@
+%article.video_category
+  %header
+    %h3= "Results for '#{params[:search_term]}':"
+  .videos.row
+    - @results.each do |video|
+      .video.col-sm-3
+        = link_to video, nil do 
+          = image_tag video.small_cover_url
