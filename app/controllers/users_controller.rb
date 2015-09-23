@@ -6,6 +6,7 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
+      flash['notice'] = "Profile was successfully created. Please sign in."
       redirect_to sign_in_path
     else
       render :new
