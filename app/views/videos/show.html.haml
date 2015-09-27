@@ -6,8 +6,31 @@
       .video_info.col-sm-3
         %header
           %h3= @video.title
-          %span Rating: 4.5/5.0
+          %span Rating: #{@video.average_rating} / 5
         %p= @video.description
         .actions
           %a.btn.btn-primary(href="") Watch Now
           %a.btn.btn-default(href="") + My Queue
+          
+%section.reviews.container
+  .row
+    .col-sm-10.col-sm-offset-1
+      = bootstrap_nested_form_for [@video, Review.new] do |f|
+        %fieldset 
+          = f.select :rating, rating_options, {label: "Rate this video", class: "col-sm-3"}
+          = f.text_area :comment, rows: 6, label: "Write Review", class: "col-sm-8"
+        %fieldset.form-group.actions.clearfix
+          = f.submit "Submit", class: "btn"
+          = link_to "Cancel", @video
+      %header
+        %h3 User Reviews (#{@reviews.count})
+      %ul
+        - @reviews.each do |review|
+          %article.review
+            %li.row
+              .col-sm-2
+                %span Rating: #{review.rating} / 5
+                %p by <a href="">#{review.user.name}</a>
+              .col-sm-8
+                %p= review.comment
+
