@@ -13,6 +13,7 @@ gem 'bootstrap_form'
 gem 'bcrypt'
 gem 'fabrication'
 gem 'faker'
+gem "nested_form"
 
 group :development do
   gem 'thin'
