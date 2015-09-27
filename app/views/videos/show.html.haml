@@ -17,7 +17,7 @@
     .col-sm-10.col-sm-offset-1
       = bootstrap_nested_form_for [@video, Review.new] do |f|
         %fieldset 
-          = f.select :rating, [["1 Star", 1], ["2 Star", 2], ["3 Star", 3], ["4 Star", 4], ["5 Star", 5]], {label: "Rate this video", class: "col-sm-3"}
+          = f.select :rating, rating_options, {label: "Rate this video", class: "col-sm-3"}
           = f.text_area :comment, rows: 6, label: "Write Review", class: "col-sm-8"
         %fieldset.form-group.actions.clearfix
           = f.submit "Submit", class: "btn"

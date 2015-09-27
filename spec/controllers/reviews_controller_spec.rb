@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 describe ReviewsController do
+  it {is_expected.to use_before_action(:require_user)}
+  
   describe "POST create" do
     let(:video) {Fabricate(:video)}
     
@@ -9,10 +11,9 @@ describe ReviewsController do
       before {session[:user_id] = new_user.id}
       
       context "with valid input" do
-        before {post :create, review: Fabricate.attributes_for(:review), video_id: video.id}
-        it "redirects to the video show page" do
-          expect(response).to redirect_to video
-        end
+        before {post :create, review: Fabricate.attributes_for(:review), video_id: video.id}\
+          
+        it {is_expected.to redirect_to video}
         
         it "creates a review" do
           expect(Review.count).to eq(1)
@@ -31,9 +32,7 @@ describe ReviewsController do
       context "with invalid input" do
         before {post :create, review: {comment: "vgkh"}, video_id: video.id}
         
-        it "renders the video show page" do
-          expect(response).to render_template "videos/show"
-        end
+        it {is_expected.to render_template("videos/show")}
         
         it "does not create a review" do
           expect(Review.count).to eq(0)

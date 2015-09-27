@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 describe VideosController do
+  it {is_expected.to use_before_action(:require_user)}
+  
   describe "GET show" do
     it "sets the @video for authenticated user" do
       session[:user_id] = Fabricate(:user).id

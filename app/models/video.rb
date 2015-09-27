@@ -12,10 +12,6 @@ class Video < ActiveRecord::Base
   
   def average_rating
     return 0 if reviews.empty?
-    ratings = []
-    reviews.each do |review|
-      ratings << review.rating
-    end
-    ratings.sum / ratings.count
-  end
+    reviews.average(:rating).round(1)
+  end  
 end
