@@ -11,8 +11,6 @@ gem 'jquery-rails'
 gem 'pg'
 gem 'bootstrap_form'
 gem 'bcrypt'
-gem 'fabrication'
-gem 'faker'
 gem "nested_form"
 
 group :development do
@@ -30,6 +28,8 @@ end
 group :test do
   gem 'database_cleaner', '1.2.0'
   gem 'shoulda-matchers'
+  gem 'fabrication'
+  gem 'faker'
 end
 
 group :production do

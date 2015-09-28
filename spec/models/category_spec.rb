@@ -2,6 +2,8 @@ require "spec_helper"
 
 describe Category do
   it { is_expected.to have_many(:videos) }
+  it { is_expected.to validate_presence_of(:name) }
+  it { is_expected.to validate_uniqueness_of(:name) }
   
   describe "#recent_videos" do
     it "it returns videos in reverse chronical order by created at" do

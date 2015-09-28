@@ -5,6 +5,7 @@ Myflix::Application.routes.draw do
   get '/sign_in', to: 'sessions#new'
   post '/sign_in', to: 'sessions#create'
   get '/sign_out', to: 'sessions#destroy'
+  get '/my_queque', to: 'queue_items#index'
   resources :users, only: [:create]    
   resources :videos, only: [:show, :index] do
     collection do
