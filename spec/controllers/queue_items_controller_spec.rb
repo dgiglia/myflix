@@ -18,4 +18,54 @@ describe QueueItemsController do
       expect(response).to redirect_to root_path
     end
   end
+  
+  describe "POST create" do
+    context "with authenticated user" do
+      let(:chopper) {Fabricate(:video)}
+      let(:john) {Fabricate(:user)}
+      before do
+        session[:user_id] = john.id
+      end
+      
+      it "redirect to my queue page" do
+        post :create, video_id: chopper.id
+        expect(response).to redirect_to my_queue_path
+      end
+
+      it "create a queue item" do
+        post :create, video_id: chopper.id
+        expect(QueueItem.count).to eq(1)
+      end
+      
+      it "creates queue item that is associated with the video" do
+        post :create, video_id: chopper.id
+        expect(QueueItem.first.video).to eq(chopper)
+      end
+      
+      it "creates queue item that is associated with the signed in user" do
+        post :create, video_id: chopper.id
+        expect(QueueItem.first.user).to eq(john)
+      end
+      
+      it "puts the video as last in queue" do
+        post :create, video_id: chopper.id
+        stork = Fabricate(:video)
+        post :create, video_id: stork.id
+        stork_queue_item = QueueItem.where(video_id: stork.id, user_id: john.id).first
+        expect(stork_queue_item.position).to eq(2)
+      end
+      
+      it "does not add video if already in queue" do
+        Fabricate(:queue_item, video: chopper, user: john)
+        post :create, video_id: chopper.id
+        expect(john.queue_items.count).to eq(1)
+      end
+    end
+    
+    context "with unauthenticated user" do
+      before {post :create}
+      it {is_expected.to redirect_to root_path}
+    end
+  end
+  
 end
