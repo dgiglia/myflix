@@ -51,7 +51,7 @@ describe QueueItemsController do
         post :create, video_id: chopper.id
         stork = Fabricate(:video)
         post :create, video_id: stork.id
-        stork_queue_item = QueueItem.where(video_id: stork.id, user_id: john.id).first
+        stork_queue_item = QueueItem.find_by(video_id: stork.id, user_id: john.id)
         expect(stork_queue_item.position).to eq(2)
       end
       
