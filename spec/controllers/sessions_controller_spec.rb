@@ -18,7 +18,7 @@ describe SessionsController do
       let(:bob) {Fabricate(:user)}
       before {post :create, email: bob.email, password: bob.password}
       
-      it {is_expected.to set_session(:user_id).to(bob.id)}      
+      it {is_expected.to set_session[:user_id].to(bob.id)}      
       it {is_expected.to redirect_to home_path}      
       it {is_expected.to set_flash}
     end
