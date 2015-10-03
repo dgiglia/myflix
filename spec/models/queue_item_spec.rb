@@ -38,18 +38,18 @@ describe QueueItem do
     it "changes the rating if review is present" do
       review = Fabricate(:review, user: user, video: video, rating: 2)
       item.rating = 4
-      expect(Review.first.rating).to eq(4)
+      expect(item.reload.rating).to eq(4)
     end
     
     it "clears rating if review is present" do
       review = Fabricate(:review, user: user, video: video, rating: 2)
       item.rating = nil
-      expect(Review.first.rating).to be_nil
+      expect(item.reload.rating).to be_nil
     end
     
     it "creates review with rating if review is not present" do
       item.rating = 4
-      expect(Review.first.rating).to eq(4)
+      expect(item.reload.rating).to eq(4)
     end
   end
   

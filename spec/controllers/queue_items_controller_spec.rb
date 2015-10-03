@@ -87,7 +87,7 @@ describe QueueItemsController do
       it "normalizes remaining queue items" do
         item2 = Fabricate(:queue_item, user: george, position: 2)
         delete :destroy, id: item1.id
-        expect(QueueItem.first.position).to eq(1)
+        expect(item2.reload.position).to eq(1)
       end
 
       it "does not delete item if it is not in current user's queue" do
@@ -163,10 +163,9 @@ describe QueueItemsController do
         video = Fabricate(:video)
         session[:user_id] = renee.id
         item_alpha = Fabricate(:queue_item, user: bob, position: 1, video: video)
-        item_beta = Fabricate(:queue_item, user: renee, position: 2, video: video)
-        post :update_queue, queue_items: [{id: item_alpha.id, position: 2}, {id: item_beta.id, position: 1}]
+        item_beta = Fabricate(:queue_item, user: bob, position: 2, video: video)
+        post :update_queue, queue_items: [{id: item_alpha.id, position: 2}]
         expect(item_alpha.reload.position).to eq(1)
-        expect(item_beta.reload.position).to eq(1)
       end
     end
   end

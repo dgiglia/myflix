@@ -4,7 +4,7 @@
       %article
         %header
           %h2 My Queue
-        = bootstrap_form_tag update_queue_path
+        = bootstrap_form_tag url: update_queue_path do |f|
           %table.table
             %thead
               %tr
@@ -16,20 +16,20 @@
                 %th(width="15%") Remove
             %tbody
               - @queue_items.each do |item|
-                %tr
-                  = f.hidden_field "queue_items[][id]", item.id
+                %tr                  
                   %td
-                    = f.text "queue_items[][position]", item.position
+                    = hidden_field_tag "queue_items[][id]", item.id
+                    = text_field_tag "queue_items[][position]", item.position
                   %td
                     = link_to item.video_title, item.video
                   %td
                     = button_to "Play", nil, class: "btn btn-default"
                   %td
-                    = f.select :rating, "queue_items[][rating]", rating_options(item.rating), include_blank: true
+                    = select_tag "queue_items[][rating]", rating_options(item.rating), include_blank: true
                   %td
                     = link_to item.category_name, item.category
                   %td
                     = link_to item, method: :delete do
-                      %i.glyphicon.glyphicon-remove
-          = f.submit "Update Instant Queue", class: "btn btn-default"
+                      %i.glyphicon.glyphicon-remove                                
+          = submit_tag "Update Instant Queue", class: "btn btn-default"
           
