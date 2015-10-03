@@ -17,7 +17,7 @@
             %tbody
               - @queue_items.each do |item|
                 %tr
-                  = f.hidden_field, "queue_items[][id]", item.id
+                  = f.hidden_field "queue_items[][id]", item.id
                   %td
                     = f.text "queue_items[][position]", item.position
                   %td
@@ -25,11 +25,11 @@
                   %td
                     = button_to "Play", nil, class: "btn btn-default"
                   %td
-                    = item.rating
+                    = f.select :rating, "queue_items[][rating]", rating_options(item.rating), include_blank: true
                   %td
                     = link_to item.category_name, item.category
                   %td
                     = link_to item, method: :delete do
                       %i.glyphicon.glyphicon-remove
-          = f.submit "Update Instant Queue", class: "btn btn-default"
-
+            = f.submit "Update Instant Queue", class: "btn btn-default"
+          

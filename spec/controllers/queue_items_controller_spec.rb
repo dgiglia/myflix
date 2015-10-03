@@ -71,8 +71,8 @@ describe QueueItemsController do
   describe "DELETE destroy" do
     context "with authenticated user" do
       let(:george) {Fabricate(:user)}
-      before {session[:user_id] = george.id}
       let(:item1) {Fabricate(:queue_item, user: george, position: 1)}
+      before {session[:user_id] = george.id}
       
       it "removes video from my_queue for signed in user" do
         delete :destroy, id: item1.id
@@ -109,9 +109,10 @@ describe QueueItemsController do
   describe "POST update_queue" do    
     context "with valid input" do
       let(:renee) {Fabricate(:user)}
+      let(:video) {Fabricate(:video)}
+      let(:item_alpha) {Fabricate(:queue_item, user: renee, position: 1, video: video)}
+      let(:item_beta) {Fabricate(:queue_item, user: renee, position: 2, video: video)}
       before {session[:user_id] = renee.id}
-      let(:item_alpha) {Fabricate(:queue_item, user: renee, position: 1)}
-      let(:item_beta) {Fabricate(:queue_item, user: renee, position: 2)}
       
       it "redirects to my queue page" do
         post :update_queue, queue_items: [{id: item_alpha.id, position: 2}, {id: item_beta.id, position: 1}]
@@ -131,8 +132,9 @@ describe QueueItemsController do
     
     context "with invalid input" do
       let(:renee) {Fabricate(:user)}
-      let(:item_alpha) {Fabricate(:queue_item, user: renee, position: 1)}
-      let(:item_beta) {Fabricate(:queue_item, user: renee, position: 2)}
+      let(:video) {Fabricate(:video)}
+      let(:item_alpha) {Fabricate(:queue_item, user: renee, position: 1, video: video)}
+      let(:item_beta) {Fabricate(:queue_item, user: renee, position: 2, video: video)}
       before do 
         session[:user_id] = renee.id
         post :update_queue, queue_items: [{id: item_alpha.id, position: 3}, {id: item_beta.id, position: "B"}]
@@ -158,9 +160,10 @@ describe QueueItemsController do
       it "does not change queue items" do
         renee = Fabricate(:user)
         bob = Fabricate(:user)
+        video = Fabricate(:video)
         session[:user_id] = renee.id
-        item_alpha = Fabricate(:queue_item, user: bob, position: 1)
-        item_beta = Fabricate(:queue_item, user: renee, position: 2)
+        item_alpha = Fabricate(:queue_item, user: bob, position: 1, video: video)
+        item_beta = Fabricate(:queue_item, user: renee, position: 2, video: video)
         post :update_queue, queue_items: [{id: item_alpha.id, position: 2}, {id: item_beta.id, position: 1}]
         expect(item_alpha.reload.position).to eq(1)
         expect(item_beta.reload.position).to eq(1)
