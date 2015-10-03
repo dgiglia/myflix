@@ -58,7 +58,7 @@ describe Video do
       review2 = Fabricate(:review, video: video, rating: 1)
       review2 = Fabricate(:review, video: video, rating: 2)
       average = (5 + 1 + 2) / 3
-      expect(video.average_rating).to eq(average.round(1))
+      expect(video.average_rating).to eq(2.7)
     end
   end
 end
