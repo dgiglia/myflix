@@ -14,18 +14,16 @@ describe QueueItem do
   end
   
   describe "#rating" do
+    let(:video) {Fabricate(:video)}
+    let(:user) {Fabricate(:user)}
+    let(:queue_item) {Fabricate(:queue_item, user: user, video: video)}
+    
     it "returns review rating if there is a review" do
-      video = Fabricate(:video)
-      user = Fabricate(:user)
       review = (Fabricate :review, user: user, video: video, rating: 4)
-      queue_item = Fabricate(:queue_item, user: user, video: video)
       expect(queue_item.rating).to eq(4)
     end
     
     it "returns nil if there is no review" do
-      video = Fabricate(:video)
-      user = Fabricate(:user)
-      queue_item = Fabricate(:queue_item, user: user, video: video)
       expect(queue_item.rating).to eq(nil)
     end
   end

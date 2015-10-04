@@ -7,25 +7,25 @@ describe SessionsController do
       expect(response).not_to redirect_to home_path
     end
     it "redirects to home page for authenticated users" do
-      session[:user_id] = Fabricate(:user).id
+      set_current_user
       get :new
       expect(response).to redirect_to home_path
     end
   end
   
   describe "POST create" do
+    let(:jenkins) {Fabricate(:user)}
+    
     context "with valid credentials" do
-      let(:bob) {Fabricate(:user)}
-      before {post :create, email: bob.email, password: bob.password}
+      before {post :create, email: jenkins.email, password: jenkins.password}
       
-      it {is_expected.to set_session[:user_id].to(bob.id)}      
+      it {is_expected.to set_session[:user_id].to(jenkins.id)}      
       it {is_expected.to redirect_to home_path}      
       it {is_expected.to set_flash}
     end
     
     context "with invalid credentials" do
-      let(:bob) {Fabricate(:user)}
-      before {post :create, email: bob.email, password: bob.password + 'dfhhtdf'}
+      before {post :create, email: jenkins.email, password: jenkins.password + 'dfhhtdf'}
       
       it {is_expected.to set_session(nil)}      
       it {is_expected.to redirect_to sign_in_path}      
@@ -35,7 +35,7 @@ describe SessionsController do
   
   describe "GET destroy" do
     before do
-      session[:user_id] = Fabricate(:user).id
+      set_current_user
       get :destroy      
     end
     
