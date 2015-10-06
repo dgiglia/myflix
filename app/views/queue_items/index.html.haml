@@ -4,7 +4,7 @@
       %article
         %header
           %h2 My Queue
-        = bootstrap_form_tag url: update_queue_path do |f|
+        = form_tag update_queue_path do 
           %table.table
             %thead
               %tr
@@ -16,9 +16,9 @@
                 %th(width="15%") Remove
             %tbody
               - @queue_items.each do |item|
-                %tr                  
-                  %td
-                    = hidden_field_tag "queue_items[][id]", item.id
+                %tr 
+                  = hidden_field_tag "queue_items[][id]", item.id
+                  %td                    
                     = text_field_tag "queue_items[][position]", item.position
                   %td
                     = link_to item.video_title, item.video
