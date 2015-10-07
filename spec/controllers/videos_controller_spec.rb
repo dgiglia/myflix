@@ -6,23 +6,23 @@ describe VideosController do
   describe "GET show" do
     before do
       set_current_user
-      @video = Fabricate(:video)
     end
+    let(:video) {Fabricate(:video)}
     
-    it "sets the @video for authenticated user" do
-      get :show, id: @video.id
-      expect(assigns(:video)).to eq(@video)
+    it "sets the video for authenticated user" do
+      get :show, id: video.id
+      expect(assigns(:video)).to eq(video)
     end
     
     it "sets @reviews for authenticated user" do
-      review1 = Fabricate(:review, video: @video)
-      review2 = Fabricate(:review, video: @video)      
-      get :show, id: @video.id
+      review1 = Fabricate(:review, video: video)
+      review2 = Fabricate(:review, video: video)      
+      get :show, id: video.id
       expect(assigns(:reviews)).to match_array([review1, review2])
     end
     
     it_behaves_like "require sign in" do
-      let(:action) {get :show, id: @video.id}
+      let(:action) {get :show, id: video.id}
     end
   end
   
