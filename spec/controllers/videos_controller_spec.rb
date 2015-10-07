@@ -4,41 +4,41 @@ describe VideosController do
   it {is_expected.to use_before_action(:require_user)}
   
   describe "GET show" do
-    it "sets the @video for authenticated user" do
-      session[:user_id] = Fabricate(:user).id
-      video = Fabricate(:video)
+    before do
+      set_current_user
+    end
+    let(:video) {Fabricate(:video)}
+    
+    it "sets the video for authenticated user" do
       get :show, id: video.id
       expect(assigns(:video)).to eq(video)
     end
     
     it "sets @reviews for authenticated user" do
-      session[:user_id] = Fabricate(:user).id
-      video = Fabricate(:video)
       review1 = Fabricate(:review, video: video)
       review2 = Fabricate(:review, video: video)      
       get :show, id: video.id
       expect(assigns(:reviews)).to match_array([review1, review2])
     end
     
-    it "redirects unauthenticated user to front page" do
-      video = Fabricate(:video)
-      get :show, id: video.id
-      expect(response).to redirect_to root_path
+    it_behaves_like "require sign in" do
+      let(:action) {get :show, id: video.id}
     end
   end
   
   describe "GET search" do
-    it "sets @results for authenticated user" do
-      session[:user_id] = Fabricate(:user).id
-      dr_who = Fabricate(:video, title: 'Doctor Who')
-      get :search, search_term: 'doc'
-      expect(assigns(:results)).to eq([dr_who])
+    before do
+      set_current_user
+      @dr_who = Fabricate(:video, title: "Doctor Who")
     end
     
-    it "redirects unauthenticated user to front page" do
-      dr_who = Fabricate(:video, title: 'Doctor Who')
+    it "sets @results for authenticated user" do
       get :search, search_term: 'doc'
-      expect(response).to redirect_to root_path
+      expect(assigns(:results)).to eq([@dr_who])
+    end
+    
+    it_behaves_like "require sign in" do
+      let(:action) {get :search, search_term: 'doc'}
     end
   end
 
