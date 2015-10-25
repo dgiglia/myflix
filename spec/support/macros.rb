@@ -17,3 +17,7 @@ def sign_in(user=nil)
   fill_in "Password", with: user.password
   click_button "Submit"
 end
+
+def click_video_link(video)
+  find("a[href='/videos/#{video.id}']").click
+end

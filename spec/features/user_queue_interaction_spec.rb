@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-feature "user signs in" do
+feature "user interacts with queue" do
   scenario "user adds and reorders videos in queue" do
     comedy = Fabricate(:category)
     shield = Fabricate(:video, title: "Shield", category: comedy)
@@ -39,7 +39,7 @@ feature "user signs in" do
   
   def add_video_to_queue(video)
     visit home_path
-    find("a[href='/videos/#{video.id}']").click
+    click_video_link(video)
     click_link "+ My Queue"
   end
 end
