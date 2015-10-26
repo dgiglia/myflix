@@ -18,6 +18,25 @@ describe UsersController do
       
       it {is_expected.to redirect_to sign_in_path}
     end
+    
+    context "sending emails" do
+      after {ActionMailer::Base.deliveries.clear}
+      
+      it "sends out email to the user with valid inputs" do
+        post :create, user: {email: "john@example.com", password: "password", name: "john smith"}
+        expect(ActionMailer::Base.deliveries.last.to).to eq(["john@example.com"])
+      end
+      
+      it "sends out email containg the user's name with valid inputs" do
+        post :create, user: {email: "john@example.com", password: "password", name: "john smith"}
+        expect(ActionMailer::Base.deliveries.last.body).to include("john smith")
+      end
+      
+      it "does not send out email with invalid inputs" do
+        post :create, user: {email: "john@example.com", name: "john smith"}
+        expect(ActionMailer::Base.deliveries).to be_empty
+      end
+    end
       
     context "with invalid input" do
       before {post :create, user: {password: "password", name: "your name"}}
