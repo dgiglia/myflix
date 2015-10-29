@@ -9,16 +9,6 @@ describe UsersController do
   end
   
   describe "POST create" do
-    context "with valid input" do
-      before {post :create, user: Fabricate.attributes_for(:user)}
-      
-      it "creates the user" do        
-        expect(User.count).to eq(1)
-      end
-      
-      it {is_expected.to redirect_to sign_in_path}
-    end
-    
     context "sending emails" do
       after {ActionMailer::Base.deliveries.clear}
       
@@ -37,7 +27,17 @@ describe UsersController do
         expect(ActionMailer::Base.deliveries).to be_empty
       end
     end
+    
+    context "with valid input" do
+      before {post :create, user: Fabricate.attributes_for(:user)}
       
+      it "creates the user" do        
+        expect(User.count).to eq(1)
+      end
+      
+      it {is_expected.to redirect_to sign_in_path}
+    end    
+    
     context "with invalid input" do
       before {post :create, user: {password: "password", name: "your name"}}
       

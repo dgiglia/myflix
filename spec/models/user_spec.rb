@@ -11,6 +11,11 @@ describe User do
   it { is_expected.to validate_presence_of(:name) }
   it { is_expected.to validate_uniqueness_of(:email) }
   
+  it "generates a random token when the user is created" do
+    frank = Fabricate(:user)
+    expect(frank.token).to be_present
+  end
+  
   describe "#follows?" do
     let(:frank) {Fabricate(:user)}
     let(:george) {Fabricate(:user)}
