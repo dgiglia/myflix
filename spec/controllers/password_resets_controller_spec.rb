@@ -44,7 +44,7 @@ describe PasswordResetsController do
     
     context "with invalid token" do
       before {post :create, token: '12345', password: 'some_password'}
-      it {is_expected.to redirect_to sign_in_path}
+      it {is_expected.to redirect_to expired_token_path}
     end    
   end
 end

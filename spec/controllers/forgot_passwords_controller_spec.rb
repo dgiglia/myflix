@@ -2,9 +2,10 @@ require 'spec_helper'
 
 describe ForgotPasswordsController do  
   describe "POST create" do
-    after {ActionMailer::Base.deliveries.clear}
+    
     context "with blank input" do
       before {post :create, email: ""}
+      after {ActionMailer::Base.deliveries.clear}
       
       it {is_expected.to redirect_to forgot_password_path}
       
@@ -16,6 +17,7 @@ describe ForgotPasswordsController do
         Fabricate(:user, email: 'joe@example.com') 
         post :create, email: 'joe@example.com' 
       end
+      after {ActionMailer::Base.deliveries.clear}
 
       it "redirects to the forgot password confirmation page" do
         expect(response).to redirect_to forgot_password_confirmation_path
@@ -29,6 +31,7 @@ describe ForgotPasswordsController do
     
     context "with non-existing email" do
       before {post :create, email: "shiba@example.com"}
+      after {ActionMailer::Base.deliveries.clear}
       
       it {is_expected.to redirect_to forgot_password_path}
       

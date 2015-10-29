@@ -30,7 +30,7 @@ Myflix::Application.routes.draw do
   resources :forgot_passwords, only: [:create]
   
   resources :password_resets, only: [:show, :create]
-  get '/expired_token_path', to: 'password_resets#expired_token'
+  get '/expired_token', to: 'password_resets#expired_token'
     
   get 'ui(/:action)', controller: 'ui'
 end
