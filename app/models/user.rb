@@ -8,6 +8,8 @@ class User < ActiveRecord::Base
   validates_presence_of :email, :password, :name
   validates_uniqueness_of :email 
   
+  before_create :generate_token
+  
   def normalize_queue_positions
     queue_items.each_with_index do |q, i|
       q.update_attributes(position: i+1)
@@ -24,5 +26,9 @@ class User < ActiveRecord::Base
   
   def can_follow?(another_user)
     !(self.follows?(another_user) || another_user == self)
+  end
+  
+  def generate_token
+    self.token = SecureRandom.urlsafe_base64
   end
 end
