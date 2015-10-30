@@ -13,7 +13,7 @@ class PasswordResetsController < ApplicationController
     if user
       user.password = params[:password]
       user.generate_token
-      user.save
+      user.save!
       flash['success'] = "Your password has been updated."
       redirect_to sign_in_path
     else

@@ -5,6 +5,6 @@
         %header
           %h1 Forgot Password?
           %p We will send you an email with a link that you can use to reset your password.
-        .form-group
+        %fieldset
           = f.email_field :email, label: 'Email Address:'
           = f.submit "Send Email", class: 'btn btn-default'

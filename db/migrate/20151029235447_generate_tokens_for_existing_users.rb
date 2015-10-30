@@ -1,6 +1,6 @@
 class GenerateTokensForExistingUsers < ActiveRecord::Migration
   def change
-    User.all.each do |user|
+    User.find_each do |user|
       user.update_column(:token, SecureRandom.urlsafe_base64)
     end
   end
