@@ -35,8 +35,29 @@ describe UsersController do
         expect(User.count).to eq(1)
       end
       
-      it {is_expected.to redirect_to sign_in_path}
+      it {is_expected.to redirect_to sign_in_path}         
     end    
+    
+    context "with valid input and invitation" do
+      let(:dean) {Fabricate(:user)}
+      let(:invitation) {Fabricate(:invitation, inviter: dean, recipient_email: "sam@example.com")}
+      let(:sam) {User.find_by(email: "sam@example.com")}
+      before do
+        post :create, user: {email: "sam@example.com", password: "password", name: "sam winchester"}, invitation_token: invitation.token
+      end
+      
+      it "makes the user follow the inviter" do        
+        expect(sam.follows?(dean)).to be true
+      end
+      
+      it "makes the inviter follow the user" do
+        expect(dean.follows?(sam)).to be true
+      end
+      
+      it "expires the invitation upon acceptance" do
+        expect(Invitation.first.token).to be nil
+      end
+    end
     
     context "with invalid input" do
       before {post :create, user: {password: "password", name: "your name"}}
@@ -64,5 +85,29 @@ describe UsersController do
       get :show, id: john.id
       expect(assigns(:user)).to eq(john)
     end    
+  end
+  
+  describe "GET new_with_invitation_token" do
+    let(:invitation) {Fabricate(:invitation)}
+    
+    it "sets @user with recipient's email" do
+      get :new_with_invitation_token, token: invitation.token
+      expect(assigns(:user).email).to eq(invitation.recipient_email)
+    end
+    
+    it "renders new template" do
+      get :new_with_invitation_token, token: invitation.token
+      expect(response).to render_template(:new)
+    end 
+    
+    it "redirects to expired token page for invlaid tokens" do
+      get :new_with_invitation_token, token: 'sodifhdoxkjvnklnvc'
+      expect(response).to redirect_to expired_token_path
+    end   
+    
+    it "sets @invitation_token" do
+      get :new_with_invitation_token, token: invitation.token
+      expect(assigns(:invitation_token)).to eq(invitation.token)
+    end
   end
 end
