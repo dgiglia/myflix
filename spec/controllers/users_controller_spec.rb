@@ -45,6 +45,7 @@ describe UsersController do
       before do
         post :create, user: {email: "sam@example.com", password: "password", name: "sam winchester"}, invitation_token: invitation.token
       end
+      after {ActionMailer::Base.deliveries.clear}
       
       it "makes the user follow the inviter" do        
         expect(sam.follows?(dean)).to be true
