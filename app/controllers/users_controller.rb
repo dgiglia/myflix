@@ -9,7 +9,7 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     if @user.save           
       handle_invitation
-      AppMailer.send_welcome_email(@user).deliver
+      AppMailer.delay.send_welcome_email(@user)
       flash['success'] = "Profile was successfully created. Please sign in."
       redirect_to sign_in_path
     else
