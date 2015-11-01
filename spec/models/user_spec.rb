@@ -11,9 +11,8 @@ describe User do
   it { is_expected.to validate_presence_of(:name) }
   it { is_expected.to validate_uniqueness_of(:email) }
   
-  it "generates a random token when the user is created" do
-    frank = Fabricate(:user)
-    expect(frank.token).to be_present
+  it_behaves_like "tokenable" do
+    let(:object) {Fabricate(:user)}
   end
   
   describe "#follows?" do
@@ -40,6 +39,22 @@ describe User do
     
     it "returns false when the user has not queued the video" do
       expect(user.queued_video?(video)).to be false
+    end
+  end
+  
+  describe "#follow" do
+    let(:user) {Fabricate(:user)}
+    
+    it "follows another user" do
+      holly = Fabricate(:user)
+      holly.follow(user)
+      expect(holly.follows?(user)).to be true
+    end
+    
+    it "does not follow oneself" do
+      holly = Fabricate(:user)
+      holly.follow(holly)
+      expect(holly.follows?(holly)).to be false
     end
   end
 end
