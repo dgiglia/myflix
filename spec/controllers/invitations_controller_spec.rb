@@ -7,8 +7,7 @@ describe InvitationsController do
     it "sets @invitation to a new invitation" do
       set_current_user
       get :new
-      expect(assigns(:invitation)).to be_new_record
-      expect(assigns(:invitation)).to be_instance_of Invitation
+      expect(assigns(:invitation)).to be_a_new(Invitation)
     end
     
     it_behaves_like "require sign in" do
@@ -62,7 +61,7 @@ describe InvitationsController do
       
       it {is_expected.to render_template(:new)}   
       
-      it {is_expected.to set_flash['danger']}
+      it {is_expected.to set_flash.now['danger']}
     end
   end
 end

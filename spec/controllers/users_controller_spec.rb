@@ -90,6 +90,7 @@ describe UsersController do
   
   describe "GET new_with_invitation_token" do
     let(:invitation) {Fabricate(:invitation)}
+    after {ActionMailer::Base.deliveries.clear}
     
     it "sets @user with recipient's email" do
       get :new_with_invitation_token, token: invitation.token
