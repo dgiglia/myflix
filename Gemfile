@@ -12,6 +12,8 @@ gem 'pg'
 gem 'bootstrap_form'
 gem 'bcrypt'
 gem "nested_form"
+gem "sidekiq"
+gem "unicorn"
 
 group :development do
   gem 'thin'
