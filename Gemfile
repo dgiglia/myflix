@@ -15,6 +15,9 @@ gem "nested_form"
 gem "sidekiq"
 gem "unicorn"
 gem "sentry-raven"
+gem 'carrierwave'
+gem 'mini_magick'
+gem 'figaro'
 
 group :development do
   gem 'thin'
@@ -40,6 +43,7 @@ group :test do
 end
 
 group :production, :staging do
+  gem 'carrierwave-aws'
   gem 'rails_12factor'
 end
 
