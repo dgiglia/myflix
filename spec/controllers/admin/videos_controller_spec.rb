@@ -4,7 +4,6 @@ describe Admin::VideosController do
   it {is_expected.to use_before_action(:require_user)}
   
   describe "GET new" do
-    before {set_current_user}
     it "sets @video to new video" do
       set_current_admin
       get :new
@@ -12,6 +11,7 @@ describe Admin::VideosController do
     end
     
     it "sets flash error for regular user" do
+      set_current_user
       get :new
       expect(flash['danger']).to be_present
     end
@@ -25,9 +25,7 @@ describe Admin::VideosController do
     end
   end
   
-  describe "POST create" do
-    before {set_current_user}
-    
+  describe "POST create" do    
     it_behaves_like "require sign in" do
       let(:action) {post :create}
     end
@@ -73,7 +71,7 @@ describe Admin::VideosController do
         expect(assigns(:video)).to be_present
       end
       
-      it {is_expected.to set_flash['danger']}
+      it {is_expected.to set_flash.now['danger']}
     end
   end
 end
