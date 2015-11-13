@@ -7,12 +7,22 @@ class UsersController < ApplicationController
   
   def create
     @user = User.new(user_params)
-    if @user.save           
-      handle_invitation
-      handle_charge
-      AppMailer.delay.send_welcome_email(@user)
-      flash['success'] = "Profile was successfully created. Please sign in."
-      redirect_to sign_in_path
+    if @user.valid?                 
+      charge = StripeWrapper::Charge.create(
+        amount: 999,
+        card: params[:stripeToken],
+        description: "MyFlix Sign Up Charge for #{@user.email}"
+      )
+      if charge.successful?
+        @user.save     
+        handle_invitation
+        AppMailer.delay.send_welcome_email(@user)
+        flash['success'] = "Profile was successfully created. Please sign in."
+        redirect_to sign_in_path
+      else
+        flash.now['danger'] = charge.error_message
+        render :new
+      end
     else
       render :new
     end
@@ -46,14 +56,4 @@ class UsersController < ApplicationController
       invitation.update_column(:token, nil)
     end
   end    
-  
-  def handle_charge
-    Stripe.api_key = ENV['STRIPE_SECRET_KEY']
-    Stripe::Charge.create(
-      amount: 999,
-      currency: "usd",
-      card: params[:stripeToken],
-      description: "MyFlix Sign Up Charge for #{@user.email}"
-    )
-  end
 end

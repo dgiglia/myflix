@@ -43,6 +43,8 @@ group :test do
   gem 'launchy'
   gem 'vcr'
   gem 'webmock'
+  gem 'selenium-webdriver'
+  gem 'poltergeist'
 end
 
 group :production, :staging do
