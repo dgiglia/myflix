@@ -8,7 +8,7 @@ describe "StripeWrapper" do
           :card => {
             :number => "4242424242424242",
             :exp_month => 11,
-            :exp_year => 2020,
+            :exp_year => Time.now.year + 1,
             :cvc => "314"
             },
         ).id
@@ -28,7 +28,7 @@ describe "StripeWrapper" do
               :card => {
                 :number => "4000000000000002",
                 :exp_month => 11,
-                :exp_year => 2020,
+                :exp_year => Time.now.year + 1,
                 :cvc => "314"
                 },
             ).id}

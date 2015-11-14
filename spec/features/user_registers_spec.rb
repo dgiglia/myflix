@@ -9,7 +9,7 @@ feature "user registers", {js: true, vcr: true} do
     fill_valid_user
     fill_valid_card    
     click_button "Sign Up"
-    expect(page).to have_content("Profile was successfully created. Please sign in.")
+    expect(page).to have_css("div#flash_success")
   end
   
   scenario "with valid user info and invalid card" do
@@ -23,14 +23,14 @@ feature "user registers", {js: true, vcr: true} do
     fill_valid_user
     fill_declined_card    
     click_button "Sign Up"
-    expect(page).to have_content("Your card was declined.")
+    expect(page).to have_css("div#flash_danger")
   end
   
   scenario "with invalid user info and valid card" do
     fill_invalid_user
     fill_valid_card    
     click_button "Sign Up"
-    expect(page).to have_content("Invalid user information. Please check error messages below.")
+    expect(page).to have_css("div#flash_danger")
   end
   
   scenario "with invalid user info and invalid card" do
@@ -44,7 +44,7 @@ feature "user registers", {js: true, vcr: true} do
     fill_invalid_user
     fill_declined_card    
     click_button "Sign Up"
-    expect(page).to have_content("Invalid user information. Please check error messages below.")
+    expect(page).to have_css("div#flash_danger")
   end
   
   def fill_valid_user
@@ -62,20 +62,20 @@ feature "user registers", {js: true, vcr: true} do
     fill_in "Credit Card Number", with: "4242424242424242"
     fill_in "Security Code", with: "123"
     select "11 - November", from: "date_month"
-    select "2019", from: "date_year"
+    select "#{Time.now.year + 1}", from: "date_year"
   end
   
   def fill_invalid_card
     fill_in "Credit Card Number", with: "123"
     fill_in "Security Code", with: "123"
     select "11 - November", from: "date_month"
-    select "2019", from: "date_year"
+    select "#{Time.now.year + 1}", from: "date_year"
   end
   
   def fill_declined_card
     fill_in "Credit Card Number", with: "4000000000000002"
     fill_in "Security Code", with: "123"
     select "11 - November", from: "date_month"
-    select "2019", from: "date_year"
+    select "#{Time.now.year + 1}", from: "date_year"
   end  
 end

@@ -14,7 +14,7 @@ describe UsersController do
       let(:charge) {double(:charge, successful?: true)}
       before do
         ActionMailer::Base.deliveries.clear
-        StripeWrapper::Charge.stub(:create).and_return(charge)
+        expect(StripeWrapper::Charge).to receive(:create).and_return(charge)
       end
       
       it "sends out email to the user with valid inputs" do
@@ -36,7 +36,7 @@ describe UsersController do
     context "with valid personal info and valid card" do
       let(:charge) {double(:charge, successful?: true)}
       before do
-        StripeWrapper::Charge.stub(:create).and_return(charge)
+        expect(StripeWrapper::Charge).to receive(:create).and_return(charge)
         post :create, user: Fabricate.attributes_for(:user)
       end
       
@@ -50,7 +50,7 @@ describe UsersController do
     context "with valid personal info and declined card" do
       let(:charge) {double(:charge, successful?: false, error_message: "Your card was declined.")}
       before do
-        StripeWrapper::Charge.stub(:create).and_return(charge)
+        expect(StripeWrapper::Charge).to receive(:create).and_return(charge)
         post :create, user: Fabricate.attributes_for(:user), stripeToken: '123123'
       end
       
@@ -87,7 +87,7 @@ describe UsersController do
       let(:sam) {User.find_by(email: "sam@example.com")}
       let(:charge) {double(:charge, successful?: true)}
       before do
-        StripeWrapper::Charge.stub(:create).and_return(charge)
+        expect(StripeWrapper::Charge).to receive(:create).and_return(charge)
         post :create, user: {email: "sam@example.com", password: "password", name: "sam winchester"}, invitation_token: invitation.token
       end
       after {ActionMailer::Base.deliveries.clear}
