@@ -13,7 +13,7 @@ describe "StripeWrapper" do
             },
         ).id
 
-        response = Stripe::Charge.create(
+        response = StripeWrapper::Charge.create(
           amount: 999,
           card: token,
           currency: "usd",
@@ -23,45 +23,29 @@ describe "StripeWrapper" do
         expect(response).to be_successful
       end
       
-      context "with an invalid charge"
-      it "makes a card declined charge", :vcr do
-        token = Stripe::Token.create(
-          :card => {
-            :number => "4000000000000002",
-            :exp_month => 11,
-            :exp_year => 2020,
-            :cvc => "314"
-            },
-        ).id
-
-        response = Stripe::Charge.create(
-          amount: 999,
-          card: token,
-          currency: "usd",
-          description: "An invalid charge"
-        )
-
-        expect(response).not_to be_successful
-      end
+      context "with an invalid charge" do
+        let(:token) {Stripe::Token.create(
+              :card => {
+                :number => "4000000000000002",
+                :exp_month => 11,
+                :exp_year => 2020,
+                :cvc => "314"
+                },
+            ).id}
+        let(:response) {StripeWrapper::Charge.create(
+            amount: 999,
+            card: token,
+            currency: "usd",
+            description: "An invalid charge"
+          )}
       
-      it "returns the error message for declined charges", :vcr do
-        token = Stripe::Token.create(
-          :card => {
-            :number => "4000000000000002",
-            :exp_month => 11,
-            :exp_year => 2020,
-            :cvc => "314"
-            },
-        ).id
+        it "makes a card declined charge", :vcr do
+          expect(response).not_to be_successful
+        end
 
-        response = Stripe::Charge.create(
-          amount: 999,
-          card: token,
-          currency: "usd",
-          description: "An invalid charge"
-        )
-
-        expect(response.error_message).to eq("Your card was declined.")
+        it "returns the error message for declined charges", :vcr do
+          expect(response.error_message).to be_present
+        end
       end
     end
   end

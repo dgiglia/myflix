@@ -24,6 +24,7 @@ class UsersController < ApplicationController
         render :new
       end
     else
+      flash.now['danger'] = "Invalid user information. Please check error messages below."
       render :new
     end
   end

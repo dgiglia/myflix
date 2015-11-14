@@ -2,14 +2,14 @@ require 'spec_helper'
 
 feature "User invites friend"  do
   scenario "user successfully invites friend and invitation is accepted", {js: true, vcr: true} do 
-    dean = Fabricate(:user)
+    dean = Fabricate(:user, name: "Dean")
     sign_in(dean)
     invite_cas    
     cas_accepts_invitation
     cas_signs_in     
     cas_should_follow(dean)
     cas_should_be_followed_by(dean)
-    clear_email
+    clear_emails
   end
   
   def invite_cas
@@ -32,23 +32,25 @@ feature "User invites friend"  do
     select "11 - November", from: "date_month"
     select "2019", from: "date_year"
     click_button "Sign Up"
+    expect(page).to have_content("Profile was successfully created. Please sign in.")
   end
   
   def cas_signs_in
     fill_in "Email Address", with: "cas@example.com"
     fill_in "Password", with: "password"
     click_button "Submit"
+    expect(page).to have_content("You're signed in.")
   end
   
   def cas_should_follow(dean)
-    visit people_path
-    expect(page).to have_content dean.name
+    click_link "People"
+    expect(page).to have_content("Dean")
     sign_out
   end
   
   def cas_should_be_followed_by(dean)
     sign_in(dean)
-    visit people_path
+    click_link "People"
     expect(page).to have_content("Castiel")
   end
 end
