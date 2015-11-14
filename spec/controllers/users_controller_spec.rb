@@ -14,7 +14,7 @@ describe UsersController do
       let(:charge) {double(:charge, successful?: true)}
       before do
         ActionMailer::Base.deliveries.clear
-        expect(StripeWrapper::Charge).to receive(:create).and_return(charge)
+        allow(StripeWrapper::Charge).to receive(:create).and_return(charge)
       end
       
       it "sends out email to the user with valid inputs" do
