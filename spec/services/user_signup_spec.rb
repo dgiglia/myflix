@@ -11,17 +11,17 @@ describe UserSignup do
       end
       
       it "sends out email to the user with valid inputs" do
-        UserSignup.new(Fabricate.build(:user, email: "john@example.com", password: "password", name: "john smith")).sign_up("stripetoken", nil)
+        UserSignup.new(Fabricate.build(:user, email: "john@example.com", password: "password", name: "john smith")).sign_up("stripetoken")
         expect(ActionMailer::Base.deliveries.last.to).to eq(["john@example.com"])
       end
       
       it "sends out email containing the user's name with valid inputs" do
-        UserSignup.new(Fabricate.build(:user, email: "john@example.com", password: "password", name: "john smith")).sign_up("stripetoken", nil)
+        UserSignup.new(Fabricate.build(:user, email: "john@example.com", password: "password", name: "john smith")).sign_up("stripetoken")
         expect(ActionMailer::Base.deliveries.last.body).to include("john smith")
       end
       
       it "does not send out email with invalid inputs" do
-        UserSignup.new(User.new(email: "john@example.com")).sign_up("stripetoken", nil)
+        UserSignup.new(User.new(email: "john@example.com")).sign_up("stripetoken")
         expect(ActionMailer::Base.deliveries).to be_empty
       end         
     end      
@@ -30,7 +30,7 @@ describe UserSignup do
       it "creates the user" do  
         charge = double(:charge, successful?: true)
         expect(StripeWrapper::Charge).to receive(:create).and_return(charge)
-        UserSignup.new(Fabricate.build(:user)).sign_up("stripetoken", nil)
+        UserSignup.new(Fabricate.build(:user)).sign_up("stripetoken")
         expect(User.count).to eq(1)
       end
     end
@@ -39,22 +39,19 @@ describe UserSignup do
       it "does not create a new user record" do
         charge = double(:charge, successful?: false, error_message: "Your card was declined.")
         expect(StripeWrapper::Charge).to receive(:create).and_return(charge)
-        UserSignup.new(Fabricate.build(:user)).sign_up("stripetoken", nil)            
+        UserSignup.new(Fabricate.build(:user)).sign_up("stripetoken")            
         expect(User.count).to eq(0)
       end
     end 
     
-    context "with invalid personal info" do
-      before do
-        UserSignup.new(User.new(name: "Joe", email: "Joesmith@example.com")).sign_up("stripetoken", nil)
-      end
-        
-      it "does not create user" do        
-        expect(User.count).to eq(0)
+    context "with invalid personal info" do        
+      it "does not create user" do
+        expect {UserSignup.new(User.new(name: "Joe", email: "Joesmith@example.com")).sign_up("stripetoken")}.to_not change {User.count}
       end      
       
       it "does not charge the card" do
         expect(StripeWrapper::Charge).not_to receive(:create)
+        UserSignup.new(User.new(name: "Joe", email: "Joesmith@example.com")).sign_up("stripetoken")
       end
     end
     

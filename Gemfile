@@ -42,7 +42,7 @@ group :test do
   gem 'capybara'
   gem 'capybara-email', github: 'dockyard/capybara-email'
   gem 'launchy'
-  gem 'vcr'
+  gem 'vcr', '2.9.3'
   gem 'webmock'
   gem 'selenium-webdriver'
   gem 'poltergeist'
