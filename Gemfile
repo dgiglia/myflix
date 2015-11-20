@@ -19,6 +19,7 @@ gem 'carrierwave'
 gem 'mini_magick'
 gem 'figaro'
 gem 'stripe'
+gem 'draper'
 
 group :development do
   gem 'thin'
@@ -41,7 +42,7 @@ group :test do
   gem 'capybara'
   gem 'capybara-email', github: 'dockyard/capybara-email'
   gem 'launchy'
-  gem 'vcr'
+  gem 'vcr', '2.9.3'
   gem 'webmock'
   gem 'selenium-webdriver'
   gem 'poltergeist'
