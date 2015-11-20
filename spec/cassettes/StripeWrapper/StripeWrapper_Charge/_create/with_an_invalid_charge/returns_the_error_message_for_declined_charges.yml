@@ -5,7 +5,7 @@ http_interactions:
     uri: https://api.stripe.com/v1/tokens
     body:
       encoding: US-ASCII
-      string: card[cvc]=314&card[exp_month]=11&card[exp_year]=2020&card[number]=4000000000000002
+      string: card[cvc]=314&card[exp_month]=11&card[exp_year]=2016&card[number]=4000000000000002
     headers:
       Accept:
       - "*/*; q=0.5, application/xml"
@@ -31,7 +31,7 @@ http_interactions:
       Server:
       - nginx
       Date:
-      - Sat, 14 Nov 2015 02:28:54 GMT
+      - Thu, 19 Nov 2015 23:10:12 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -49,7 +49,7 @@ http_interactions:
       Cache-Control:
       - no-cache, no-store
       Request-Id:
-      - req_7LaypYBJCS3N9x
+      - req_7Nn7Kbrgt1qEVs
       Stripe-Version:
       - '2015-10-16'
       Strict-Transport-Security:
@@ -58,10 +58,10 @@ http_interactions:
       encoding: UTF-8
       string: |
         {
-          "id": "tok_176tmcHCrQkfMpMYOmOiqEEi",
+          "id": "tok_1791XcHCrQkfMpMYUwa3Ouow",
           "object": "token",
           "card": {
-            "id": "card_176tmcHCrQkfMpMYzFYSSKpn",
+            "id": "card_1791XcHCrQkfMpMYqdyZ84Rj",
             "object": "card",
             "address_city": null,
             "address_country": null,
@@ -76,7 +76,7 @@ http_interactions:
             "cvc_check": "unchecked",
             "dynamic_last4": null,
             "exp_month": 11,
-            "exp_year": 2020,
+            "exp_year": 2016,
             "fingerprint": "HUl8nu02Nrd7U8Ba",
             "funding": "credit",
             "last4": "0002",
@@ -85,19 +85,19 @@ http_interactions:
             "tokenization_method": null
           },
           "client_ip": "52.91.75.143",
-          "created": 1447468134,
+          "created": 1447974612,
           "livemode": false,
           "type": "card",
           "used": false
         }
     http_version: 
-  recorded_at: Sat, 14 Nov 2015 02:28:54 GMT
+  recorded_at: Thu, 19 Nov 2015 23:10:12 GMT
 - request:
     method: post
     uri: https://api.stripe.com/v1/charges
     body:
       encoding: US-ASCII
-      string: amount=999&card=tok_176tmcHCrQkfMpMYOmOiqEEi&currency=usd&description=An+invalid+charge
+      string: amount=999&card=tok_1791XcHCrQkfMpMYUwa3Ouow&currency=usd&description=An+invalid+charge
     headers:
       Accept:
       - "*/*; q=0.5, application/xml"
@@ -123,7 +123,7 @@ http_interactions:
       Server:
       - nginx
       Date:
-      - Sat, 14 Nov 2015 02:28:55 GMT
+      - Thu, 19 Nov 2015 23:10:13 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -141,7 +141,7 @@ http_interactions:
       Cache-Control:
       - no-cache, no-store
       Request-Id:
-      - req_7LayPY71zUv3Nb
+      - req_7Nn744cdrOuOXc
       Stripe-Version:
       - '2015-10-16'
     body:
@@ -152,9 +152,9 @@ http_interactions:
             "message": "Your card was declined.",
             "type": "card_error",
             "code": "card_declined",
-            "charge": "ch_176tmdHCrQkfMpMYKaS2sEA5"
+            "charge": "ch_1791XcHCrQkfMpMYo3RbY4qy"
           }
         }
     http_version: 
-  recorded_at: Sat, 14 Nov 2015 02:28:55 GMT
-recorded_with: VCR 3.0.0
+  recorded_at: Thu, 19 Nov 2015 23:10:13 GMT
+recorded_with: VCR 2.9.3

@@ -5,7 +5,7 @@ http_interactions:
     uri: https://api.stripe.com/v1/charges
     body:
       encoding: US-ASCII
-      string: amount=999&card=tok_176sfuHCrQkfMpMY3UhAQq3q&currency=usd&description=MyFlix+Sign+Up+Charge+for+logan%40example.com
+      string: amount=999&card=tok_1791XPHCrQkfMpMYs7HEEZXQ&currency=usd&description=MyFlix+Sign+Up+Charge+for+logan%40example.com
     headers:
       Accept:
       - "*/*; q=0.5, application/xml"
@@ -31,7 +31,7 @@ http_interactions:
       Server:
       - nginx
       Date:
-      - Sat, 14 Nov 2015 01:17:55 GMT
+      - Thu, 19 Nov 2015 23:10:00 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -49,7 +49,7 @@ http_interactions:
       Cache-Control:
       - no-cache, no-store
       Request-Id:
-      - req_7LZprNGssgALJ7
+      - req_7Nn7fxJo4NAhfJ
       Stripe-Version:
       - '2015-10-16'
       Strict-Transport-Security:
@@ -58,14 +58,14 @@ http_interactions:
       encoding: UTF-8
       string: |
         {
-          "id": "ch_176sfuHCrQkfMpMYjuUAJZI7",
+          "id": "ch_1791XQHCrQkfMpMY3xOSfiRS",
           "object": "charge",
           "amount": 999,
           "amount_refunded": 0,
           "application_fee": null,
-          "balance_transaction": "txn_176sfvHCrQkfMpMYGbfhnCdZ",
+          "balance_transaction": "txn_1791XQHCrQkfMpMYlyXeRNiz",
           "captured": true,
-          "created": 1447463874,
+          "created": 1447974600,
           "currency": "usd",
           "customer": null,
           "description": "MyFlix Sign Up Charge for logan@example.com",
@@ -86,11 +86,11 @@ http_interactions:
             "data": [],
             "has_more": false,
             "total_count": 0,
-            "url": "/v1/charges/ch_176sfuHCrQkfMpMYjuUAJZI7/refunds"
+            "url": "/v1/charges/ch_1791XQHCrQkfMpMY3xOSfiRS/refunds"
           },
           "shipping": null,
           "source": {
-            "id": "card_176sfuHCrQkfMpMYj0rFTju4",
+            "id": "card_1791XPHCrQkfMpMYqUpjqfX5",
             "object": "card",
             "address_city": null,
             "address_country": null,
@@ -106,7 +106,7 @@ http_interactions:
             "cvc_check": "pass",
             "dynamic_last4": null,
             "exp_month": 11,
-            "exp_year": 2019,
+            "exp_year": 2016,
             "fingerprint": "BB3tXPVjt1y5XYSy",
             "funding": "credit",
             "last4": "4242",
@@ -118,5 +118,5 @@ http_interactions:
           "status": "succeeded"
         }
     http_version: 
-  recorded_at: Sat, 14 Nov 2015 01:17:55 GMT
-recorded_with: VCR 3.0.0
+  recorded_at: Thu, 19 Nov 2015 23:10:00 GMT
+recorded_with: VCR 2.9.3
