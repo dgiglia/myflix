@@ -4,10 +4,10 @@ describe UserSignup do
   describe "#sign_up" do
     context "sending emails" do
       after {ActionMailer::Base.deliveries.clear}
-      let(:charge) {double(:charge, successful?: true)}
+      let(:customer) {double(:customer, successful?: true)}
       before do
         ActionMailer::Base.deliveries.clear
-        allow(StripeWrapper::Charge).to receive(:create).and_return(charge)
+        allow(StripeWrapper::Customer).to receive(:create).and_return(customer)
       end
       
       it "sends out email to the user with valid inputs" do
@@ -28,8 +28,8 @@ describe UserSignup do
     
     context "with valid personal info and valid card" do
       it "creates the user" do  
-        charge = double(:charge, successful?: true)
-        expect(StripeWrapper::Charge).to receive(:create).and_return(charge)
+        customer = double(:customer, successful?: true)
+        expect(StripeWrapper::Customer).to receive(:create).and_return(customer)
         UserSignup.new(Fabricate.build(:user)).sign_up("stripetoken")
         expect(User.count).to eq(1)
       end
@@ -37,8 +37,8 @@ describe UserSignup do
     
     context "with valid personal info and declined card" do      
       it "does not create a new user record" do
-        charge = double(:charge, successful?: false, error_message: "Your card was declined.")
-        expect(StripeWrapper::Charge).to receive(:create).and_return(charge)
+        customer = double(:customer, successful?: false, error_message: "Your card was declined.")
+        expect(StripeWrapper::Customer).to receive(:create).and_return(customer)
         UserSignup.new(Fabricate.build(:user)).sign_up("stripetoken")            
         expect(User.count).to eq(0)
       end
@@ -50,7 +50,7 @@ describe UserSignup do
       end      
       
       it "does not charge the card" do
-        expect(StripeWrapper::Charge).not_to receive(:create)
+        expect(StripeWrapper::Customer).not_to receive(:create)
         UserSignup.new(User.new(name: "Joe", email: "Joesmith@example.com")).sign_up("stripetoken")
       end
     end
@@ -59,12 +59,11 @@ describe UserSignup do
       let(:dean) {Fabricate(:user)}
       let(:invitation) {Fabricate(:invitation, inviter: dean, recipient_email: "sam@example.com")}
       let(:sam) {User.find_by(email: "sam@example.com")}
-      let(:charge) {double(:charge, successful?: true)}
+      let(:customer) {double(:customer, successful?: true)}
       before do
-        expect(StripeWrapper::Charge).to receive(:create).and_return(charge)
+        expect(StripeWrapper::Customer).to receive(:create).and_return(customer)
         UserSignup.new(Fabricate.build(:user, email: "sam@example.com", password: "password", name: "sam winchester")).sign_up("stripetoken", invitation.token)
-      end
-        
+      end        
       after {ActionMailer::Base.deliveries.clear}
       
       it "makes the user follow the inviter" do        
