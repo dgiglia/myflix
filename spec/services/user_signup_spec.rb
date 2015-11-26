@@ -4,7 +4,7 @@ describe UserSignup do
   describe "#sign_up" do
     context "sending emails" do
       after {ActionMailer::Base.deliveries.clear}
-      let(:customer) {double(:customer, successful?: true)}
+      let(:customer) {double(:customer, successful?: true, customer_token: "abcdefg")}
       before do
         ActionMailer::Base.deliveries.clear
         allow(StripeWrapper::Customer).to receive(:create).and_return(customer)
@@ -27,11 +27,17 @@ describe UserSignup do
     end      
     
     context "with valid personal info and valid card" do
+      let(:customer) {double(:customer, successful?: true, customer_token: "abcdefg")}
+      before {expect(StripeWrapper::Customer).to receive(:create).and_return(customer)}
+      
       it "creates the user" do  
-        customer = double(:customer, successful?: true)
-        expect(StripeWrapper::Customer).to receive(:create).and_return(customer)
         UserSignup.new(Fabricate.build(:user)).sign_up("stripetoken")
         expect(User.count).to eq(1)
+      end
+      
+      it "stores customer token from stripe" do
+        UserSignup.new(Fabricate.build(:user)).sign_up("stripetoken")
+        expect(User.first.customer_token).to eq("abcdefg")
       end
     end
     
@@ -59,7 +65,7 @@ describe UserSignup do
       let(:dean) {Fabricate(:user)}
       let(:invitation) {Fabricate(:invitation, inviter: dean, recipient_email: "sam@example.com")}
       let(:sam) {User.find_by(email: "sam@example.com")}
-      let(:customer) {double(:customer, successful?: true)}
+      let(:customer) {double(:customer, successful?: true, customer_token: "abcdefg")}
       before do
         expect(StripeWrapper::Customer).to receive(:create).and_return(customer)
         UserSignup.new(Fabricate.build(:user, email: "sam@example.com", password: "password", name: "sam winchester")).sign_up("stripetoken", invitation.token)

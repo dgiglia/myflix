@@ -15,6 +15,7 @@ Myflix::Application.routes.draw do
   
   namespace :admin do
     resources :videos, only: [:new, :create]
+    resources :payments, only: [:index]
   end
   
   get '/people', to: 'relationships#index'
@@ -38,6 +39,8 @@ Myflix::Application.routes.draw do
   
   resources :password_resets, only: [:show, :create]
   get '/expired_token', to: 'pages#expired_token'
+  
+  mount StripeEvent::Engine, at: '/stripe_events'
     
   get 'ui(/:action)', controller: 'ui'
 end

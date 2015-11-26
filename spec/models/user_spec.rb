@@ -5,6 +5,7 @@ describe User do
   it { is_expected.to have_many(:queue_items).order("position") }
   it { is_expected.to have_many(:leading_relationships).class_name("Relationship").with_foreign_key("leader_id") }
   it { is_expected.to have_many(:following_relationships).class_name("Relationship").with_foreign_key("follower_id") }
+  it { is_expected.to have_many(:payments) }
   it { is_expected.to have_secure_password }
   it { is_expected.to validate_presence_of(:email) }
   it { is_expected.to validate_presence_of(:password) }
