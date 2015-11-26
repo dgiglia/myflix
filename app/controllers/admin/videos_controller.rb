@@ -1,5 +1,4 @@
-class Admin::VideosController < AdminsController 
-  before_action :require_user
+class Admin::VideosController < AdminsController  
   
   def new
     @video = Video.new
@@ -14,7 +13,7 @@ class Admin::VideosController < AdminsController
       flash.now['danger'] = "Video has not been added."
       render :new
     end
-  end
+  end  
   
   private
   
