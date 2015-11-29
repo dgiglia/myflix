@@ -6,10 +6,11 @@
       %li= link_to "Videos", home_path
       %li= link_to "My Queue", my_queue_path
       %li= link_to "People", people_path
+      %li= link_to "Advanced Search", advanced_search_videos_path
     = form_tag search_videos_path, class: "col-md-5 navbar-form", method: 'get' do
       .form-group
         = search_field_tag :search_term, params[:search_term], placeholder: "Search by title", class: 'form-control'
-        = submit_tag "Search", class: "btn btn-default"
+        = submit_tag "Search", class: "btn btn-default"      
     #user_links.pull-right
       %ul
         %li.dropdown
