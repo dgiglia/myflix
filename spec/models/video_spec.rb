@@ -47,7 +47,6 @@ describe Video do
       review1 = Fabricate(:review, video: video, rating: 5)
       review2 = Fabricate(:review, video: video, rating: 1)
       review3 = Fabricate(:review, video: video, rating: 2)
-      average = (5 + 1 + 2) / 3
       expect(video.average_rating).to eq(2.7)
     end
   end
@@ -90,27 +89,48 @@ describe Video do
         expect(Video.search("star").records.to_a).to match_array [star_trek, star_wars]
       end
     end
-  end
-  
-  context "with title and description" do
-    it "returns an array of many videos based for title and description match" do
-      star_wars = Fabricate(:video, title: "Star Wars")
-      about_sun = Fabricate(:video, description: "sun is a star")
-      Video.__elasticsearch__.refresh_index!
+    
+    context "with title and description" do
+      it "returns an array of many videos based for title and description match" do
+        star_wars = Fabricate(:video, title: "Star Wars")
+        about_sun = Fabricate(:video, description: "sun is a star")
+        refresh_index
 
-      expect(Video.search("star").records.to_a).to match_array [star_wars, about_sun]
+        expect(Video.search("star").records.to_a).to match_array [star_wars, about_sun]
+      end
     end
-  end
 
-  context "multiple words must match" do
-    it "returns an array of videos where 2 words match title" do
-      star_wars_1 = Fabricate(:video, title: "Star Wars: Episode 1")
-      star_wars_2 = Fabricate(:video, title: "Star Wars: Episode 2")
-      bride_wars = Fabricate(:video, title: "Bride Wars")
-      star_trek = Fabricate(:video, title: "Star Trek")
-      Video.__elasticsearch__.refresh_index!
+    context "multiple words must match" do
+      it "returns an array of videos where 2 words match title" do
+        star_wars_1 = Fabricate(:video, title: "Star Wars: Episode 1")
+        star_wars_2 = Fabricate(:video, title: "Star Wars: Episode 2")
+        bride_wars = Fabricate(:video, title: "Bride Wars")
+        star_trek = Fabricate(:video, title: "Star Trek")
+        refresh_index
 
-      expect(Video.search("Star Wars").records.to_a).to match_array [star_wars_1, star_wars_2]
+        expect(Video.search("Star Wars").records.to_a).to match_array [star_wars_1, star_wars_2]
+      end
     end
-  end
+    
+    context "with title, description and reviews" do
+      it 'returns an an empty array for no match with reviews option' do
+        star_wars = Fabricate(:video, title: "Star Wars")
+        batman    = Fabricate(:video, title: "Batman")
+        batman_review = Fabricate(:review, video: batman, comment: "such a star movie!")
+        refresh_index
+
+        expect(Video.search("no_match", reviews: true).records.to_a).to eq([])
+      end
+
+      it 'returns an array of many videos with relevance title > description > review' do
+        star_wars = Fabricate(:video, title: "Star Wars")
+        about_sun = Fabricate(:video, description: "the sun is a star!")
+        batman    = Fabricate(:video, title: "Batman")
+        batman_review = Fabricate(:review, video: batman, comment: "such a star movie!")
+        refresh_index
+
+        expect(Video.search("star", reviews: true).records.to_a).to eq([star_wars, about_sun, batman])
+      end
+    end    
+  end  
 end
