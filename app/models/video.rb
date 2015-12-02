@@ -19,11 +19,7 @@ class Video < ActiveRecord::Base
   end
   
   def average_rating
-    if reviews.average(:rating)
-      reviews.average(:rating).round(1) 
-    else
-      0
-    end
+      reviews.average(:rating).round(1) if reviews.average(:rating)
   end  
   
   def self.search(query, options={})
@@ -38,15 +34,15 @@ class Video < ActiveRecord::Base
     }
 
     if query.present? && options[:reviews]
-      search_definition[:query][:multi_match][:fields] << 'reviews.content'
+      search_definition[:query][:multi_match][:fields] << 'reviews.comment'
     end
 
-    if options[:rating_from].present? || options[:rating_to].present?
+    if options[:average_rating_from].present? || options[:average_rating_to].present?
       search_definition[:filter] = {
         range: {
           average_rating: {
-            gte: (options[:rating_from] if options[:rating_from].present?),
-            lte: (options[:rating_to] if options[:rating_to].present?)
+            gte: (options[:average_rating_from] if options[:average_rating_from].present?),
+            lte: (options[:average_rating_to] if options[:average_rating_to].present?)
           }
         }
       }
@@ -57,7 +53,7 @@ class Video < ActiveRecord::Base
   
   def as_indexed_json(options={})
     as_json(
-      methods: [:rating],
+      methods: [:average_rating],
       only: [:title, :description],
       include: {
         reviews: { only: [:comment] }

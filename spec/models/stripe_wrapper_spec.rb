@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "StripeWrapper" do
+describe "StripeWrapper", :vcr do
   let(:valid_token) do
     Stripe::Token.create(
       :card => {
@@ -25,7 +25,7 @@ describe "StripeWrapper" do
 
   describe "StripeWrapper::Charge" do
     describe ".create" do      
-      it "makes a successful charge", :vcr do
+      it "makes a successful charge" do
         response = StripeWrapper::Charge.create(
           amount: 999,
           card: valid_token,
@@ -44,11 +44,11 @@ describe "StripeWrapper" do
             description: "An invalid charge"
           )}
       
-        it "makes a card declined charge", :vcr do
+        it "makes a card declined charge" do
           expect(response).not_to be_successful
         end
 
-        it "returns the error message for declined charges", :vcr do
+        it "returns the error message for declined charges" do
           expect(response.error_message).to be_present
         end
       end
@@ -59,7 +59,7 @@ describe "StripeWrapper" do
     let(:jen) {Fabricate(:user)}
     describe ".create" do
       context "with valid card" do
-        it "creates a customer", :vcr do
+        it "creates a customer" do
           response = StripeWrapper::Customer.create(
             user: jen,
             card: valid_token,
@@ -67,7 +67,7 @@ describe "StripeWrapper" do
           expect(response).to be_successful 
         end
         
-        it "returns the customer token", :vcr do
+        it "returns the customer token" do
           response = StripeWrapper::Customer.create(
             user: jen,
             card: valid_token,
@@ -82,11 +82,11 @@ describe "StripeWrapper" do
           card: invalid_token,
         )}
         
-        it "does not create a customer", :vcr do
+        it "does not create a customer" do
           expect(response).not_to be_successful
         end
 
-        it "returns the error message for declined charges", :vcr do
+        it "returns the error message for declined charges" do
           expect(response.error_message).to be_present
         end
       end

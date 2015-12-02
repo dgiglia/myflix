@@ -39,10 +39,6 @@ describe Video do
   describe "#average_rating" do
     let(:video) {Fabricate(:video)}
     
-    it "returns 0 if no reviews" do
-      expect(video.average_rating).to eq(0)
-    end
-    
     it "returns an average rating to one decimal place if reviews" do
       review1 = Fabricate(:review, video: video, rating: 5)
       review2 = Fabricate(:review, video: video, rating: 1)
@@ -139,52 +135,52 @@ describe Video do
       let(:star_wars_3) { Fabricate(:video, title: "Star Wars 3") }
 
       before do
-        Fabricate(:review, rating: "2", video: star_wars_1)
-        Fabricate(:review, rating: "4", video: star_wars_1)
-        Fabricate(:review, rating: "4", video: star_wars_2)
-        Fabricate(:review, rating: "2", video: star_wars_3)
+        Fabricate(:review, rating: 2, video: star_wars_1)
+        Fabricate(:review, rating: 4, video: star_wars_1)
+        Fabricate(:review, rating: 4, video: star_wars_2)
+        Fabricate(:review, rating: 2, video: star_wars_3)
         refresh_index
       end
 
-      context "with only rating_from" do
+      context "with only average_rating_from" do
         it "returns an empty array when there are no matches" do
-          expect(Video.search("Star Wars", rating_from: "4.1").records.to_a).to eq []
+          expect(Video.search("Star Wars", average_rating_from: 4.1).records.to_a).to eq []
         end
 
         it "returns an array of one video when there is one match" do
-          expect(Video.search("Star Wars", rating_from: "4.0").records.to_a).to eq [star_wars_2]
+          expect(Video.search("Star Wars", average_rating_from: 4.0).records.to_a).to eq [star_wars_2]
         end
 
         it "returns an array of many videos when there are multiple matches" do
-          expect(Video.search("Star Wars", rating_from: "3.0").records.to_a).to match_array [star_wars_2, star_wars_1]
+          expect(Video.search("Star Wars", average_rating_from: 3.0).records.to_a).to match_array [star_wars_2, star_wars_1]
         end
       end
 
-      context "with only rating_to" do
+      context "with only average_rating_to" do
         it "returns an empty array when there are no matches" do
-          expect(Video.search("Star Wars", rating_to: "1.5").records.to_a).to eq []
+          expect(Video.search("Star Wars", average_rating_to: 1.5).records.to_a).to eq []
         end
 
         it "returns an array of one video when there is one match" do
-          expect(Video.search("Star Wars", rating_to: "2.5").records.to_a).to eq [star_wars_3]
+          expect(Video.search("Star Wars", average_rating_to: 2.5).records.to_a).to eq [star_wars_3]
         end
 
         it "returns an array of many videos when there are multiple matches" do
-          expect(Video.search("Star Wars", rating_to: "3.4").records.to_a).to match_array [star_wars_1, star_wars_3]
+          expect(Video.search("Star Wars", average_rating_to: 3.4).records.to_a).to match_array [star_wars_1, star_wars_3]
         end
       end
 
-      context "with both rating_from and rating_to" do
+      context "with both average_rating_from and average_rating_to" do
         it "returns an empty array when there are no matches" do
-          expect(Video.search("Star Wars", rating_from: "3.4", rating_to: "3.9").records.to_a).to eq []
+          expect(Video.search("Star Wars", average_rating_from: 3.4, average_rating_to: 3.9).records.to_a).to eq []
         end
 
         it "returns an array of one video when there is one match" do
-          expect(Video.search("Star Wars", rating_from: "1.8", rating_to: "2.2").records.to_a).to eq [star_wars_3]
+          expect(Video.search("Star Wars", average_rating_from: 1.8, average_rating_to: 2.2).records.to_a).to eq [star_wars_3]
         end
 
         it "returns an array of many videos when there are multiple matches" do
-          expect(Video.search("Star Wars", rating_from: "2.9", rating_to: "4.1").records.to_a).to match_array [star_wars_1, star_wars_2]
+          expect(Video.search("Star Wars", average_rating_from: 2.9, average_rating_to: 4.1).records.to_a).to match_array [star_wars_1, star_wars_2]
         end
       end
     end
