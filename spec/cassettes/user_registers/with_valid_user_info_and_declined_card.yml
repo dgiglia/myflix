@@ -2,10 +2,10 @@
 http_interactions:
 - request:
     method: post
-    uri: https://api.stripe.com/v1/charges
+    uri: https://api.stripe.com/v1/customers
     body:
       encoding: US-ASCII
-      string: amount=999&card=tok_1791eLHCrQkfMpMYA6A5vLSM&currency=usd&description=MyFlix+Sign+Up+Charge+for+logan%40example.com
+      string: card=tok_17A6qbHCrQkfMpMYV4xHMDCi&email=logan%40example.com&plan=myflix_base
     headers:
       Accept:
       - "*/*; q=0.5, application/xml"
@@ -22,7 +22,7 @@ http_interactions:
         version 3.16.0-34-generic (buildd@toyol) (gcc version 4.9.1 (Ubuntu 4.9.1-16ubuntu6)
         ) #47-Ubuntu SMP Fri Apr 10 18:02:58 UTC 2015","hostname":"ruby-on-rails-105430"}'
       Content-Length:
-      - '115'
+      - '76'
   response:
     status:
       code: 402
@@ -31,11 +31,11 @@ http_interactions:
       Server:
       - nginx
       Date:
-      - Thu, 19 Nov 2015 23:17:10 GMT
+      - Sun, 22 Nov 2015 23:02:18 GMT
       Content-Type:
       - application/json
       Content-Length:
-      - '162'
+      - '134'
       Connection:
       - keep-alive
       Access-Control-Allow-Credentials:
@@ -49,7 +49,7 @@ http_interactions:
       Cache-Control:
       - no-cache, no-store
       Request-Id:
-      - req_7NnE2SylpTG9lk
+      - req_7OufrBhblhU750
       Stripe-Version:
       - '2015-10-16'
     body:
@@ -59,10 +59,10 @@ http_interactions:
           "error": {
             "message": "Your card was declined.",
             "type": "card_error",
-            "code": "card_declined",
-            "charge": "ch_1791eMHCrQkfMpMYkuTOU5h3"
+            "param": "",
+            "code": "card_declined"
           }
         }
     http_version: 
-  recorded_at: Thu, 19 Nov 2015 23:17:10 GMT
+  recorded_at: Sun, 22 Nov 2015 23:02:18 GMT
 recorded_with: VCR 2.9.3

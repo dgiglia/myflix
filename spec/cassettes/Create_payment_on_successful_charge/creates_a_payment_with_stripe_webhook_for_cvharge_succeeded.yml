@@ -1,0 +1,132 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.stripe.com/v1/events/evt_17As34HCrQkfMpMYy2M7Gdvf
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - "*/*; q=0.5, application/xml"
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - Stripe/v1 RubyBindings/1.31.0
+      Authorization:
+      - Bearer sk_test_IJGXKw9MtY2Sx8gBuvYIwvtd
+      Content-Type:
+      - application/x-www-form-urlencoded
+      X-Stripe-Client-User-Agent:
+      - '{"bindings_version":"1.31.0","lang":"ruby","lang_version":"2.1.2 p95 (2014-05-08)","platform":"x86_64-linux","engine":"ruby","publisher":"stripe","uname":"Linux
+        version 3.16.0-34-generic (buildd@toyol) (gcc version 4.9.1 (Ubuntu 4.9.1-16ubuntu6)
+        ) #47-Ubuntu SMP Fri Apr 10 18:02:58 UTC 2015","hostname":"ruby-on-rails-105430"}'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Wed, 25 Nov 2015 03:05:07 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '1979'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Methods:
+      - GET, POST, HEAD, OPTIONS, DELETE
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Max-Age:
+      - '300'
+      Cache-Control:
+      - no-cache, no-store
+      Request-Id:
+      - req_7Pj2AJaqV5nsAw
+      Stripe-Version:
+      - '2015-10-16'
+      Strict-Transport-Security:
+      - max-age=31556926; includeSubDomains
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "id": "evt_17As34HCrQkfMpMYy2M7Gdvf",
+          "object": "event",
+          "api_version": "2015-10-16",
+          "created": 1448414778,
+          "data": {
+            "object": {
+              "id": "ch_17As34HCrQkfMpMYzHI6J694",
+              "object": "charge",
+              "amount": 999,
+              "amount_refunded": 0,
+              "application_fee": null,
+              "balance_transaction": "txn_17As34HCrQkfMpMYbfIRVlxv",
+              "captured": true,
+              "created": 1448414778,
+              "currency": "usd",
+              "customer": "cus_7PhR6SWtjqoTYd",
+              "description": null,
+              "destination": null,
+              "dispute": null,
+              "failure_code": null,
+              "failure_message": null,
+              "fraud_details": {},
+              "invoice": "in_17As34HCrQkfMpMYn3Tvk4qY",
+              "livemode": false,
+              "metadata": {},
+              "paid": true,
+              "receipt_email": null,
+              "receipt_number": null,
+              "refunded": false,
+              "refunds": {
+                "object": "list",
+                "data": [],
+                "has_more": false,
+                "total_count": 0,
+                "url": "/v1/charges/ch_17As34HCrQkfMpMYzHI6J694/refunds"
+              },
+              "shipping": null,
+              "source": {
+                "id": "card_17As33HCrQkfMpMY47mdBmhn",
+                "object": "card",
+                "address_city": null,
+                "address_country": null,
+                "address_line1": null,
+                "address_line1_check": null,
+                "address_line2": null,
+                "address_state": null,
+                "address_zip": null,
+                "address_zip_check": null,
+                "brand": "Visa",
+                "country": "US",
+                "customer": "cus_7PhR6SWtjqoTYd",
+                "cvc_check": "pass",
+                "dynamic_last4": null,
+                "exp_month": 11,
+                "exp_year": 2015,
+                "fingerprint": "BB3tXPVjt1y5XYSy",
+                "funding": "credit",
+                "last4": "4242",
+                "metadata": {},
+                "name": null,
+                "tokenization_method": null
+              },
+              "statement_descriptor": null,
+              "status": "succeeded"
+            }
+          },
+          "livemode": false,
+          "pending_webhooks": 0,
+          "request": "req_7PhRpJ0aeWYYaA",
+          "type": "charge.succeeded"
+        }
+    http_version: 
+  recorded_at: Wed, 25 Nov 2015 03:05:07 GMT
+recorded_with: VCR 2.9.3

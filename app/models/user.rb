@@ -6,6 +6,7 @@ class User < ActiveRecord::Base
   has_many :queue_items, -> {order("position")}
   has_many :following_relationships, class_name: "Relationship", foreign_key: "follower_id"
   has_many :leading_relationships, class_name: "Relationship", foreign_key: "leader_id"
+  has_many :payments
   
   validates_presence_of :email, :password, :name
   validates_uniqueness_of :email 
@@ -30,5 +31,9 @@ class User < ActiveRecord::Base
   
   def follow(another_user)
     following_relationships.create(leader: another_user) if can_follow?(another_user)
+  end
+  
+  def deactivate!
+    update_column(:active, false)
   end
 end

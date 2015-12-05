@@ -2,10 +2,10 @@
 http_interactions:
 - request:
     method: post
-    uri: https://api.stripe.com/v1/customers
+    uri: https://api.stripe.com/v1/tokens
     body:
       encoding: US-ASCII
-      string: card=tok_17A6qfHCrQkfMpMYRBOWjIH9&email=logan%40example.com&plan=myflix_base
+      string: card[cvc]=314&card[exp_month]=11&card[exp_year]=2016&card[number]=4242424242424242
     headers:
       Accept:
       - "*/*; q=0.5, application/xml"
@@ -22,7 +22,7 @@ http_interactions:
         version 3.16.0-34-generic (buildd@toyol) (gcc version 4.9.1 (Ubuntu 4.9.1-16ubuntu6)
         ) #47-Ubuntu SMP Fri Apr 10 18:02:58 UTC 2015","hostname":"ruby-on-rails-105430"}'
       Content-Length:
-      - '76'
+      - '82'
   response:
     status:
       code: 200
@@ -31,11 +31,11 @@ http_interactions:
       Server:
       - nginx
       Date:
-      - Sun, 22 Nov 2015 23:02:22 GMT
+      - Wed, 25 Nov 2015 02:08:52 GMT
       Content-Type:
       - application/json
       Content-Length:
-      - '2370'
+      - '781'
       Connection:
       - keep-alive
       Access-Control-Allow-Credentials:
@@ -49,7 +49,7 @@ http_interactions:
       Cache-Control:
       - no-cache, no-store
       Request-Id:
-      - req_7OugQPPxqGNfhs
+      - req_7Pi81pF0i3NZGi
       Stripe-Version:
       - '2015-10-16'
       Strict-Transport-Security:
@@ -58,16 +58,108 @@ http_interactions:
       encoding: UTF-8
       string: |
         {
-          "id": "cus_7OugQBDa0Q69Co",
+          "id": "tok_17AsiGHCrQkfMpMYJBAq9fsW",
+          "object": "token",
+          "card": {
+            "id": "card_17AsiGHCrQkfMpMYBZtW9Khq",
+            "object": "card",
+            "address_city": null,
+            "address_country": null,
+            "address_line1": null,
+            "address_line1_check": null,
+            "address_line2": null,
+            "address_state": null,
+            "address_zip": null,
+            "address_zip_check": null,
+            "brand": "Visa",
+            "country": "US",
+            "cvc_check": "unchecked",
+            "dynamic_last4": null,
+            "exp_month": 11,
+            "exp_year": 2016,
+            "fingerprint": "BB3tXPVjt1y5XYSy",
+            "funding": "credit",
+            "last4": "4242",
+            "metadata": {},
+            "name": null,
+            "tokenization_method": null
+          },
+          "client_ip": "52.23.153.147",
+          "created": 1448417332,
+          "livemode": false,
+          "type": "card",
+          "used": false
+        }
+    http_version: 
+  recorded_at: Wed, 25 Nov 2015 02:08:52 GMT
+- request:
+    method: post
+    uri: https://api.stripe.com/v1/customers
+    body:
+      encoding: US-ASCII
+      string: card=tok_17AsiGHCrQkfMpMYJBAq9fsW&email=bertha_shanahan%40wiegand.info&plan=myflix_base
+    headers:
+      Accept:
+      - "*/*; q=0.5, application/xml"
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - Stripe/v1 RubyBindings/1.31.0
+      Authorization:
+      - Bearer sk_test_IJGXKw9MtY2Sx8gBuvYIwvtd
+      Content-Type:
+      - application/x-www-form-urlencoded
+      X-Stripe-Client-User-Agent:
+      - '{"bindings_version":"1.31.0","lang":"ruby","lang_version":"2.1.2 p95 (2014-05-08)","platform":"x86_64-linux","engine":"ruby","publisher":"stripe","uname":"Linux
+        version 3.16.0-34-generic (buildd@toyol) (gcc version 4.9.1 (Ubuntu 4.9.1-16ubuntu6)
+        ) #47-Ubuntu SMP Fri Apr 10 18:02:58 UTC 2015","hostname":"ruby-on-rails-105430"}'
+      Content-Length:
+      - '87'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Wed, 25 Nov 2015 02:08:53 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '2381'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Methods:
+      - GET, POST, HEAD, OPTIONS, DELETE
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Max-Age:
+      - '300'
+      Cache-Control:
+      - no-cache, no-store
+      Request-Id:
+      - req_7Pi84sT9dCAkwg
+      Stripe-Version:
+      - '2015-10-16'
+      Strict-Transport-Security:
+      - max-age=31556926; includeSubDomains
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "id": "cus_7Pi80zLHwBUWv0",
           "object": "customer",
           "account_balance": 0,
-          "created": 1448233342,
+          "created": 1448417333,
           "currency": "usd",
-          "default_source": "card_17A6qfHCrQkfMpMYkZ14r8mc",
+          "default_source": "card_17AsiGHCrQkfMpMYBZtW9Khq",
           "delinquent": false,
           "description": null,
           "discount": null,
-          "email": "logan@example.com",
+          "email": "bertha_shanahan@wiegand.info",
           "livemode": false,
           "metadata": {},
           "shipping": null,
@@ -75,7 +167,7 @@ http_interactions:
             "object": "list",
             "data": [
               {
-                "id": "card_17A6qfHCrQkfMpMYkZ14r8mc",
+                "id": "card_17AsiGHCrQkfMpMYBZtW9Khq",
                 "object": "card",
                 "address_city": null,
                 "address_country": null,
@@ -87,7 +179,7 @@ http_interactions:
                 "address_zip_check": null,
                 "brand": "Visa",
                 "country": "US",
-                "customer": "cus_7OugQBDa0Q69Co",
+                "customer": "cus_7Pi80zLHwBUWv0",
                 "cvc_check": "pass",
                 "dynamic_last4": null,
                 "exp_month": 11,
@@ -102,20 +194,20 @@ http_interactions:
             ],
             "has_more": false,
             "total_count": 1,
-            "url": "/v1/customers/cus_7OugQBDa0Q69Co/sources"
+            "url": "/v1/customers/cus_7Pi80zLHwBUWv0/sources"
           },
           "subscriptions": {
             "object": "list",
             "data": [
               {
-                "id": "sub_7OugXvs4pXZ0E8",
+                "id": "sub_7Pi8PbDJ4txUCM",
                 "object": "subscription",
                 "application_fee_percent": null,
                 "cancel_at_period_end": false,
                 "canceled_at": null,
-                "current_period_end": 1450825342,
-                "current_period_start": 1448233342,
-                "customer": "cus_7OugQBDa0Q69Co",
+                "current_period_end": 1451009333,
+                "current_period_start": 1448417333,
+                "customer": "cus_7Pi80zLHwBUWv0",
                 "discount": null,
                 "ended_at": null,
                 "metadata": {},
@@ -134,7 +226,7 @@ http_interactions:
                   "trial_period_days": null
                 },
                 "quantity": 1,
-                "start": 1448233342,
+                "start": 1448417333,
                 "status": "active",
                 "tax_percent": null,
                 "trial_end": null,
@@ -143,9 +235,9 @@ http_interactions:
             ],
             "has_more": false,
             "total_count": 1,
-            "url": "/v1/customers/cus_7OugQBDa0Q69Co/subscriptions"
+            "url": "/v1/customers/cus_7Pi80zLHwBUWv0/subscriptions"
           }
         }
     http_version: 
-  recorded_at: Sun, 22 Nov 2015 23:02:22 GMT
+  recorded_at: Wed, 25 Nov 2015 02:08:53 GMT
 recorded_with: VCR 2.9.3
